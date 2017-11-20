@@ -1,0 +1,47 @@
+buildscript {
+	ext {
+		springBootVersion = '1.5.8.RELEASE'
+        springDependencyManagementVersion = '1.0.0.RC2'
+        awsSdkVersion = '2.0.0-preview-1'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath "io.spring.gradle:dependency-management-plugin:${springDependencyManagementVersion}"
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: "io.spring.dependency-management"
+apply plugin: 'org.springframework.boot'
+
+group = 'com.smartthings.searchlight'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+
+repositories {
+	mavenCentral()
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "software.amazon.awssdk:bom:${awsSdkVersion}"
+    }
+}
+
+
+dependencies {
+	compile('org.springframework.boot:spring-boot-starter-data-jpa')
+	compile('org.springframework.boot:spring-boot-starter-data-rest')
+	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
+	compile('com.h2database:h2')
+    compile('software.amazon.awssdk:s3')
+    compile('software.amazon.awssdk:dynamodb')
+    compile('com.github.derjust:spring-data-dynamodb:4.5.0')
+	compile('junit:junit:4.12')
+	compileOnly('org.projectlombok:lombok')
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+}
